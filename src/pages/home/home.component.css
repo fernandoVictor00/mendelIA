@@ -1,0 +1,7 @@
+.form {
+   display: flex;
+   flex-direction: column;
+}
+.form-field {
+   width: 24rem;
+}
