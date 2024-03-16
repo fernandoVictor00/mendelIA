@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +7,20 @@ import {FormsModule} from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
+  requestForm;
+  constructor(
+    private _fb: FormBuilder,
+  ) {
+    this.requestForm = this._fb.group({
+      dna: [''],
+    });
+  }
 
   ngOnInit() {
+  }
+
+  createRequest(){
+    console.log(this.requestForm.value);
   }
 
 }
