@@ -11,18 +11,15 @@
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <div class="space-y-6" [formGroup]="requestForm">
         <div>
-          <label
-            for="dna"
-            class="block text-md font-medium leading-6 text-gray-900"
-            >Digite sua String DNA</label
-          >
+          <label for="dna" class="block text-md font-medium leading-6 text-gray-700">Digite a sequência de DNA</label>
           <div class="mt-2">
             <input
-              formControlName="dna"
-              type="email"
-              autocomplete="email"
-              required
-              class="block w-full p-2 rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 hover:border-slate-600 focus-visible:border-slate-600 outline-none"
+              id="dna" 
+              formControlName="dna" 
+              type="text"
+              required 
+              class="block w-full p-2 rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
+              placeholder="Ex: AAGATGCCGT"
             />
           </div>
           <div class="text-center mt-1">Ou</div>
