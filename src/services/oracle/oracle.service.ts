@@ -19,13 +19,25 @@ export class FileUploadService {
   uploadFileFirebase(file: File): Promise<string> {
     const storageRef = this.storage.ref();
     const imageRef = storageRef.child(`files/${file.name}`);
-    return imageRef
-      .put(file)
-      .then((snapshot: firebase.storage.UploadTaskSnapshot) => {
-        return snapshot.ref.getDownloadURL();
-      })
-      .catch((error) => {
-        throw new Error('Erro ao enviar a imagem: ' + error.message);
-      });
+
+    return new Promise<string>((resolve, reject) => {
+      const uploadTask = imageRef.put(file);
+
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot: firebase.storage.UploadTaskSnapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
+        (error) => {
+          reject(new Error('Erro ao enviar a imagem: ' + error.message));
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
   }
 }

@@ -1,18 +1,29 @@
 <div class="w-full h-full bg-biofy-blue-dark">
   <app-navbar></app-navbar>
   <div *ngIf="isLoading" class="loading-overlay">
-    <div class="loading-spinner"></div>
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Aguarde</div>
+    </div>
   </div>
   <div class="flex flex-col justify-center px-6 lg:px-8">
     <img class="text-center h-48 w-48 self-center rounded-lg" src="../../assets/img/mendelia-transparent.png" />
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <div class="space-y-6" [formGroup]="requestForm">
         <div>
-          <label for="dna" class="block text-md font-medium leading-6 text-white">Digite a sequência de DNA</label>
-          <div class="mt-2">
-            <input id="dna" formControlName="dna" type="text" required
-              class="block w-full p-2 rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
-              placeholder="Ex: AAGATGCCGT" />
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col mt-2 gap-2">
+              <label for="nome" class="block text-md font-medium leading-6 text-white">Nome da amostra</label>
+              <input id="nome" formControlName="nome" type="text" required
+                class="block w-full p-2 rounded-lg border-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
+                placeholder="Ex: AMG-001" />
+            </div>
+            <div class="mt-2 flex flex-col gap-2">
+              <label for="nome" class="block text-md font-medium leading-6 text-white">Digite a sequência de DNA</label>
+              <input id="dna" formControlName="dna" type="text" required
+                class="block w-full p-2 rounded-lg border-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
+                placeholder="Ex: AAGATGCCGT" />
+            </div>
           </div>
           <div class="text-white text-center mt-1">Ou</div>
           <label for="dropzone-file"
