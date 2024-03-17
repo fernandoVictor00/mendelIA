@@ -1,6 +1,13 @@
-<div class="bg-slate-100 h-full">
-  <app-navbar></app-navbar>
-
-  <main class="grid grid-cols-[auto_1fr] gap-4">
-  </main>
-</div>  
+<app-navbar></app-navbar>
+<div class="bg-biofy-blue-dark p-4">
+  <div class="flex flex-col gap-4 p-4 bg-white rounded-xl">
+    <div class="flex justify-center">
+      <app-chart [isMainChart]="true" [data]="itemWithHighestProbability"></app-chart>
+    </div>
+    <div class="flex flex-wrap gap-2 justify-center lg:justify-between  items-center">
+      <div *ngFor="let data of filteredData">
+        <app-chart [data]="data"></app-chart>
+      </div>
+    </div>
+  </div>
+</div>
