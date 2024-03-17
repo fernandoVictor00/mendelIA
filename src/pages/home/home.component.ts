@@ -60,8 +60,8 @@ export class HomeComponent implements OnInit {
     if (target.files && target.files.length > 0) {
       const file = target.files[0];
       const fileExtension = file.name.split('.').pop();
-      if (fileExtension !== 'gz') {
-        alert('Por favor, selecione um arquivo .gz');
+      if (fileExtension !== 'fastq') {
+        alert('Por favor, selecione um arquivo .fastq');
       } else {
         this.selectedFile = file;
         this.selectedFileName = file.name;

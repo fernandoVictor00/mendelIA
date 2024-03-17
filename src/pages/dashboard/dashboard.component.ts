@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async ngOnInit() {
-    if (this.isUpload == 'true') {
+    if (this.isUpload == 'false') {
     this.analysisResult = await this.apiService.getAnalysisResult({
         url: this.urlImage,
       });

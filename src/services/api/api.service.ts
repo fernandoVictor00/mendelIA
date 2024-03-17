@@ -9,7 +9,8 @@ export class ApiService {
 
   async getAnalysisResult(params: { sequence?: string; url?: string }) {
     try {
-      const { data } = await axios.post('http://localhost:5000/', params);
+      const { data } = await axios.post('http://localhost:8000/', params);
+      console.log(data);
       return data;
     } catch (error) {
       console.error('Error:', error);
