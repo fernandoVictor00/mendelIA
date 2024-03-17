@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { FileUploadService } from '../../services/oracle/oracle.service';
 
 @Component({
   selector: 'app-home',
@@ -8,20 +9,30 @@ import { FormBuilder } from '@angular/forms';
 })
 export class HomeComponent implements OnInit {
   requestForm;
-  constructor(
-    private _fb: FormBuilder,
-  ) {
+  oracleService: FileUploadService;
+  selectedFile: File = null!;
+
+  constructor(private _fb: FormBuilder, oracleService: FileUploadService) {
+    this.oracleService = oracleService;
     this.requestForm = this._fb.group({
       dna: [''],
-      uploadFile: []
+      uploadFile: [],
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async createRequest() {
+    if (this.selectedFile) {
+      this.oracleService
+        .uploadImage(this.selectedFile)
+        .then((url) => {
+          console.log('URL da imagem:', url);
+        });
+    }
   }
 
-  createRequest(){
-    console.log(this.requestForm.value);
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
   }
-
 }
