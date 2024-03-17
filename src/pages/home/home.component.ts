@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
   ) {
     this.oracleService = oracleService;
     this.requestForm = this._fb.group({
-      nome: [''],
-      dna: ['', [Validators.required, this.dnaValidator]],
+      dna: ['', [Validators.minLength(5), this.dnaValidator]],
+      nome: ['', Validators.required],
       uploadFile: [],
     });
   }
@@ -52,8 +52,6 @@ export class HomeComponent implements OnInit {
         : '';
       const dna = this.requestForm.value.dna ? this.requestForm.value.dna : '';
       this.showDashboard(true, '', dna, name);
-    } else {
-      alert('Por favor, selecione um arquivo ou insira uma sequência de DNA');
     }
   }
 

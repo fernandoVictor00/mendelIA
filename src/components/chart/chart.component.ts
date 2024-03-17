@@ -5,30 +5,32 @@ import { ResultData } from '../../interfaces/result-data.interface';
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css']
+  styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements AfterViewInit {
   chart: any;
 
   @Input()
-  data: ResultData = {} as ResultData;
+  data: any;
 
   @Input()
   isMainChart: boolean = false;
 
-  constructor() { }
+  constructor() {}
 
   ngAfterViewInit() {
     if (this.data) {
-      const canvas = document.getElementById(this.data.previsoes) as HTMLCanvasElement;
+      const canvas = document.getElementById(
+        this.data.name
+      ) as HTMLCanvasElement;
       this.chart = new Chart(canvas, {
         type: 'doughnut',
         data: {
           datasets: [
             {
               label: 'Percentage',
-              data: [(this.data.probabilidades * 100), 100-(this.data.probabilidades * 100)],
-              backgroundColor: [this.data.cor, '#ffffff'] ,
+              data: [this.data.value * 100, 100 - this.data.value * 100],
+              backgroundColor: [this.data.color, '#ffffff'],
               borderWidth: 1,
             },
           ],
@@ -36,8 +38,8 @@ export class ChartComponent implements AfterViewInit {
         options: {
           plugins: {
             tooltip: {
-              enabled: false
-            }
+              enabled: false,
+            },
           },
         },
       });

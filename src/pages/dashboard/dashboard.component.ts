@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ResultData } from '../../interfaces/result-data.interface';
+import { metadata } from '../../consts/previsoes';
 import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,75 +9,79 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  data = [
-    {
-      previsoes: 'Água Marinha',
-      probabilidades: 0.4,
-      cor: '#008fbb',
-    },
-    {
-      previsoes: 'Solo',
-      probabilidades: 0.3,
-      cor: '#00ad7f',
-    },
-    {
-      previsoes: 'Leite Bovino',
-      probabilidades: 0.9,
-      cor: '#ef2d38',
-    },
-    {
-      previsoes: 'Intestino Bovino',
-      probabilidades: 0.1,
-      cor: '#575750',
-    },
-    {
-      previsoes: 'Rúmen Bovino',
-      probabilidades: 0.6,
-      cor: '#002d42',
-    },
-  ];
-  isUpload: boolean = false;
+  filteredData: any;
+  itemWithHighestProbability: any;
+  isUpload: string = '';
   urlImage: string = '';
   dna: string = '';
   name: string = '';
+  analysisResult: any;
 
-  itemWithHighestProbability: ResultData = {} as ResultData;
-  filteredData: ResultData[] = [] as ResultData[];
-
-  constructor(public activatedRoute: ActivatedRoute) {
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    private apiService: ApiService
+  ) {
     this.isUpload = this.activatedRoute.snapshot.queryParams['isUpload'];
     this.urlImage = this.activatedRoute.snapshot.queryParams['urlImage'];
     this.dna = this.activatedRoute.snapshot.queryParams['dna'];
     this.name = this.activatedRoute.snapshot.queryParams['name'];
   }
 
-  ngOnInit() {
-    if(this.isUpload) {
-      console.log('chamar passando url da imagem: ', this.urlImage);
-    }else{
-      console.log('chamar passando dna: ', this.dna);
+  async ngOnInit() {
+    if (this.isUpload == 'true') {
+    this.analysisResult = await this.apiService.getAnalysisResult({
+        url: this.urlImage,
+      });
+    } else {
+      this.analysisResult = await this.apiService.getAnalysisResult({
+        sequence: this.dna,
+      });
     }
+
+    this.filteredData = this.filterData(this.analysisResult);
 
     this.itemWithHighestProbability = this.getHighProbability();
 
-    this.filteredData = this.data.filter(
-      (item) => item !== this.itemWithHighestProbability
+    this.filteredData = this.filteredData.filter(
+      (item: any) => item !== this.itemWithHighestProbability
     );
   }
 
   getHighProbability() {
-    const { itemWithHighestProbability } = this.data.reduce(
-      (acc, curr) => {
-        const probability = curr.probabilidades;
+    const { itemWithHighestProbability } = this.filteredData.reduce(
+      (acc: any, curr: any) => {
+        const probability = curr.value;
         if (probability > acc.highestValue) {
           acc.highestValue = probability;
           acc.itemWithHighestProbability = curr;
         }
         return acc;
       },
-      { highestValue: -Infinity, itemWithHighestProbability: this.data[0] }
+      {
+        highestValue: -Infinity,
+        itemWithHighestProbability: this.filteredData[0],
+      }
     );
 
     return itemWithHighestProbability;
+  }
+
+  filterData(data: any) {
+    return metadata.map(
+      ({
+        key,
+        label,
+        color,
+      }: {
+        key: string;
+        label: string;
+        color: string;
+      }) => ({
+        name: key,
+        label: label,
+        value: data[key]['0'],
+        color: color,
+      })
+    );
   }
 }
