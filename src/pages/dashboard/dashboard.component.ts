@@ -9,29 +9,29 @@ import { ResultData } from '../../interfaces/result-data.interface';
 export class DashboardComponent implements OnInit {
   data = [
     {
-      previsoes: 'Agua marinha',
+      previsoes: 'Água Marinha',
       probabilidades: 0.4,
-      cor: '#2E86C1',
+      cor: '#008fbb',
     },
     {
-      previsoes: 'Caracteristica 2',
+      previsoes: 'Solo',
       probabilidades: 0.3,
-      cor: '#DC7633',
+      cor: '#00ad7f',
     },
     {
-      previsoes: 'Caracteristica 3',
+      previsoes: 'Leite Bovino',
       probabilidades: 0.9,
-      cor: '#CCD1D1',
+      cor: '#ef2d38',
     },
     {
-      previsoes: 'Caracteristica 4',
+      previsoes: 'Intestino Bovino',
       probabilidades: 0.1,
-      cor: '#E74C3C',
+      cor: '#575750',
     },
     {
-      previsoes: 'Caracteristica 5',
+      previsoes: 'Rúmen Bovino',
       probabilidades: 0.6,
-      cor: '#F1C40F',
+      cor: '#002d42',
     },
   ];
 
