@@ -1,7 +1,10 @@
 <div class="w-full h-full min-h-full bg-biofy-blue-dark">
   <app-navbar></app-navbar>
   <div class="flex flex-col gap-4 p-4 bg-white rounded-xl mt-6 mx-10">
-    <div class="flex justify-center">
+    <div class="flex flex-col justify-center">
+      <div>
+        <h1 class="text-biofy-blue-dark">Sequenciamento: <span class="font-bold">{{ name }}</span></h1>
+      </div>
       <app-chart [isMainChart]="true" [data]="itemWithHighestProbability"></app-chart>
     </div>
     <div class="flex flex-wrap gap-2 justify-center lg:justify-between  items-center">
