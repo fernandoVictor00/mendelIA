@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, AbstractControl  } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { FileUploadService } from '../../services/oracle/oracle.service';
 
 @Component({
@@ -17,8 +17,8 @@ export class HomeComponent implements OnInit {
   constructor(private _fb: FormBuilder, oracleService: FileUploadService) {
     this.oracleService = oracleService;
     this.requestForm = this._fb.group({
-      dna: ['', [Validators.required, this.dnaValidator]],
-      uploadFile: []
+      dna: ['', [Validators.minLength(5), this.dnaValidator]],
+      uploadFile: [],
     });
   }
 
@@ -51,7 +51,9 @@ export class HomeComponent implements OnInit {
   }
 
   dnaValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const value = control.value ? control.value.toUpperCase().replace(/[^ACGTN]/g, '') : '';
+    const value = control.value
+      ? control.value.toUpperCase().replace(/[^ACGTN]/g, '')
+      : '';
     if (value !== control.value) {
       control.setValue(value);
     }

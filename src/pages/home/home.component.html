@@ -1,20 +1,27 @@
-<div class="w-full h-full bg-biofy-blue-dark">
+<div class="w-full h-full bg-biofy-blue-dark relative">
   <app-navbar></app-navbar>
   <div *ngIf="isLoading" class="loading-overlay">
     <div class="loading-spinner"></div>
   </div>
-  <div class="flex flex-col justify-center px-6 lg:px-8">
+
+  <div class="flex flex-col gap-4 justify-center">
     <img class="text-center h-48 w-48 self-center rounded-lg" src="../../assets/img/mendelia-transparent.png" />
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <div class="space-y-6" [formGroup]="requestForm">
+      <div class="flex flex-col gap-4 p-4" [formGroup]="requestForm">
         <div>
           <label for="dna" class="block text-md font-medium leading-6 text-white">Digite a sequência de DNA</label>
           <div class="mt-2">
-            <input id="dna" formControlName="dna" type="text" required
+            <input id="dna" formControlName="dna" type="text" required name="dna"
               class="block w-full p-2 rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
-              placeholder="Ex: AAGATGCCGT" />
+              placeholder="AAGATGCCGT" min="5" />
+            <div *ngIf="requestForm.get('dna')?.invalid && requestForm.get('dna')?.touched"
+              class="text-red-600 font-semibold text-sm p-2">
+              O campo DNA deve ter no mínimo 5 caracteres.
+            </div>
           </div>
-          <div class="text-white text-center mt-1">Ou</div>
+        </div>
+        <div class="text-white text-center mt-1">Ou</div>
+        <div>
           <label for="dropzone-file"
             class="mt-4 mx-auto px-6 py-4 cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-biofy-blue bg-white text-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-biofy-blue" fill="none" viewBox="0 0 24 24"
@@ -22,24 +29,13 @@
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
-            <h2
-              *ngIf="!selectedFileName"
-              class="mt-1 text-normal font-medium text-gray-700 tracking-wide"
-            >
+            <h2 *ngIf="!selectedFileName" class="mt-1 text-normal font-medium text-gray-700 tracking-wide">
               Selecione o arquivo
             </h2>
-            <span
-              *ngIf="selectedFileName"
-              class="mt-2 text-small text-gray-500 tracking-wide"
-              >{{ selectedFileName }}</span
-            >
-            <input
-              id="dropzone-file"
-              type="file"
-              class="hidden"
-              formControlName="uploadFile"
-              (change)="onFileSelected($event)"
-            />
+            <span *ngIf="selectedFileName" class="mt-2 text-small text-gray-500 tracking-wide">{{ selectedFileName
+              }}</span>
+            <input id="dropzone-file" type="file" class="hidden" formControlName="uploadFile"
+              (change)="onFileSelected($event)" />
           </label>
           <div>
             <button (click)="createRequest()"
@@ -47,9 +43,9 @@
               Enviar
             </button>
           </div>
-          <div class="flex justify-center mt-6">
-            <img class="h-10" src="../../assets/img/biofy-white-transparent.png" />
-          </div>
+        </div>
+        <div class="hidden lg:block absolute bottom-6 right-6">
+          <img class="h-10" src="../../assets/img/biofy-white-transparent.png" />
         </div>
       </div>
     </div>
