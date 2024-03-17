@@ -12,17 +12,21 @@
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <div class="flex flex-col gap-4 p-4" [formGroup]="requestForm">
         <div>
-          <label for="dna" class="block text-md font-medium leading-6 text-white">Digite a sequência de DNA</label>
           <div class="mt-2">
-
             <div class="flex flex-col gap-4">
-              <div class="flex flex-col mt-2 gap-2">
+              <div class="flex flex-col mt-2">
                 <label for="nome" class="block text-md font-medium leading-6 text-white">Nome da amostra</label>
                 <input id="nome" formControlName="nome" type="text" required
                   class="block w-full p-2 rounded-lg border-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
                   placeholder="Ex: AMG-001" />
+                <div *ngIf="requestForm.get('nome')?.invalid && requestForm.get('nome')?.touched"
+                  class="text-red-600 font-semibold text-sm p-2">
+                  A sua amostra precisa de um nome.
+                </div>
               </div>
               <div>
+                <label for="dna" class="block text-md font-medium leading-6 text-white">Digite a sequência de
+                  DNA</label>
                 <input id="dna" formControlName="dna" type="text" required name="dna"
                   class="block w-full p-2 rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
                   placeholder="AAGATGCCGT" min="5" />

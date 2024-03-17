@@ -1,28 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ResultData } from '../../interfaces/result-data.interface';
 import { metadata } from '../../consts/previsoes';
-
-const data = {
-  previsao: {
-    '0': 2,
-  },
-  p_agua_marinha: {
-    '0': 0.0,
-  },
-  p_intestino_bovino: {
-    '0': 0.6593360233,
-  },
-  p_leite_bovino: {
-    '0': 0.3206639767,
-  },
-  p_rumen_bovino: {
-    '0': 0.02,
-  },
-  p_solo: {
-    '0': 0.0,
-  },
-};
 import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,29 +9,36 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
- 
   filteredData: any;
   itemWithHighestProbability: any;
-  isUpload: boolean = false;
+  isUpload: string = '';
   urlImage: string = '';
   dna: string = '';
   name: string = '';
+  analysisResult: any;
 
-  constructor(public activatedRoute: ActivatedRoute) {
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    private apiService: ApiService
+  ) {
     this.isUpload = this.activatedRoute.snapshot.queryParams['isUpload'];
     this.urlImage = this.activatedRoute.snapshot.queryParams['urlImage'];
     this.dna = this.activatedRoute.snapshot.queryParams['dna'];
     this.name = this.activatedRoute.snapshot.queryParams['name'];
   }
 
-  ngOnInit() {
-    this.filteredData = this.filterData(data);
-    
-    if(this.isUpload) {
-      console.log('chamar passando url da imagem: ', this.urlImage);
-    }else{
-      console.log('chamar passando dna: ', this.dna);
+  async ngOnInit() {
+    if (this.isUpload == 'true') {
+    this.analysisResult = await this.apiService.getAnalysisResult({
+        url: this.urlImage,
+      });
+    } else {
+      this.analysisResult = await this.apiService.getAnalysisResult({
+        sequence: this.dna,
+      });
     }
+
+    this.filteredData = this.filterData(this.analysisResult);
 
     this.itemWithHighestProbability = this.getHighProbability();
 
@@ -71,14 +57,17 @@ export class DashboardComponent implements OnInit {
         }
         return acc;
       },
-      { highestValue: -Infinity, itemWithHighestProbability: this.filteredData[0] }
+      {
+        highestValue: -Infinity,
+        itemWithHighestProbability: this.filteredData[0],
+      }
     );
 
     return itemWithHighestProbability;
   }
 
   filterData(data: any) {
-    return  metadata.map(
+    return metadata.map(
       ({
         key,
         label,
