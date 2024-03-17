@@ -7,7 +7,9 @@ import { FileUploadService } from '../../services/oracle/oracle.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
+
 export class HomeComponent implements OnInit {
+  isLoading = false;
   requestForm;
   oracleService: FileUploadService;
   selectedFile: File = null!;
@@ -24,9 +26,11 @@ export class HomeComponent implements OnInit {
 
   async createRequest() {
     if (this.selectedFile) {
+      this.isLoading = true;
       this.oracleService
         .uploadImage(this.selectedFile)
         .then((url) => {
+          this.isLoading = false;
           console.log('URL da imagem:', url);
         });
     }
