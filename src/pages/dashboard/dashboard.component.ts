@@ -22,6 +22,7 @@ const data = {
     '0': 0.0,
   },
 };
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,11 +33,26 @@ export class DashboardComponent implements OnInit {
  
   filteredData: any;
   itemWithHighestProbability: any;
+  isUpload: boolean = false;
+  urlImage: string = '';
+  dna: string = '';
+  name: string = '';
 
-  constructor() {}
+  constructor(public activatedRoute: ActivatedRoute) {
+    this.isUpload = this.activatedRoute.snapshot.queryParams['isUpload'];
+    this.urlImage = this.activatedRoute.snapshot.queryParams['urlImage'];
+    this.dna = this.activatedRoute.snapshot.queryParams['dna'];
+    this.name = this.activatedRoute.snapshot.queryParams['name'];
+  }
 
   ngOnInit() {
     this.filteredData = this.filterData(data);
+    
+    if(this.isUpload) {
+      console.log('chamar passando url da imagem: ', this.urlImage);
+    }else{
+      console.log('chamar passando dna: ', this.dna);
+    }
 
     this.itemWithHighestProbability = this.getHighProbability();
 

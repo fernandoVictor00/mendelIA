@@ -1,7 +1,10 @@
 <div class="w-full h-full bg-biofy-blue-dark relative">
   <app-navbar></app-navbar>
   <div *ngIf="isLoading" class="loading-overlay">
-    <div class="loading-spinner"></div>
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Aguarde</div>
+    </div>
   </div>
 
   <div class="flex flex-col gap-4 justify-center">
@@ -11,43 +14,53 @@
         <div>
           <label for="dna" class="block text-md font-medium leading-6 text-white">Digite a sequência de DNA</label>
           <div class="mt-2">
-            <input id="dna" formControlName="dna" type="text" required name="dna"
-              class="block w-full p-2 rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
-              placeholder="AAGATGCCGT" min="5" />
-            <div *ngIf="requestForm.get('dna')?.invalid && requestForm.get('dna')?.touched"
-              class="text-red-600 font-semibold text-sm p-2">
-              O campo DNA deve ter no mínimo 5 caracteres.
+
+            <div class="flex flex-col gap-4">
+              <div class="flex flex-col mt-2 gap-2">
+                <label for="nome" class="block text-md font-medium leading-6 text-white">Nome da amostra</label>
+                <input id="nome" formControlName="nome" type="text" required
+                  class="block w-full p-2 rounded-lg border-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
+                  placeholder="Ex: AMG-001" />
+              </div>
+              <div>
+                <input id="dna" formControlName="dna" type="text" required name="dna"
+                  class="block w-full p-2 rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-blue-400"
+                  placeholder="AAGATGCCGT" min="5" />
+                <div *ngIf="requestForm.get('dna')?.invalid && requestForm.get('dna')?.touched"
+                  class="text-red-600 font-semibold text-sm p-2">
+                  O campo DNA deve ter no mínimo 5 caracteres.
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="text-white text-center mt-1">Ou</div>
-        <div>
-          <label for="dropzone-file"
-            class="mt-4 mx-auto px-6 py-4 cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-biofy-blue bg-white text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-biofy-blue" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-            </svg>
-            <h2 *ngIf="!selectedFileName" class="mt-1 text-normal font-medium text-gray-700 tracking-wide">
-              Selecione o arquivo
-            </h2>
-            <span *ngIf="selectedFileName" class="mt-2 text-small text-gray-500 tracking-wide">{{ selectedFileName
-              }}</span>
-            <input id="dropzone-file" type="file" class="hidden" formControlName="uploadFile"
-              (change)="onFileSelected($event)" />
-          </label>
+          <div class="text-white text-center mt-1">Ou</div>
           <div>
-            <button (click)="createRequest()"
-              class="flex w-full justify-center rounded-md bg-biofy-blue px-3 py-1.5 mt-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-biofy-blue-more">
-              Enviar
-            </button>
+            <label for="dropzone-file"
+              class="mt-4 mx-auto px-6 py-4 cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-biofy-blue bg-white text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-biofy-blue" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <h2 *ngIf="!selectedFileName" class="mt-1 text-normal font-medium text-gray-700 tracking-wide">
+                Selecione o arquivo
+              </h2>
+              <span *ngIf="selectedFileName" class="mt-2 text-small text-gray-500 tracking-wide">{{ selectedFileName
+                }}</span>
+              <input id="dropzone-file" type="file" class="hidden" formControlName="uploadFile"
+                (change)="onFileSelected($event)" />
+            </label>
+            <div>
+              <button (click)="createRequest()"
+                class="flex w-full justify-center rounded-md bg-biofy-blue px-3 py-1.5 mt-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-biofy-blue-more">
+                Enviar
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="hidden lg:block absolute bottom-6 right-6">
-          <img class="h-10" src="../../assets/img/biofy-white-transparent.png" />
+          <div class="hidden lg:block absolute bottom-6 right-6">
+            <img class="h-10" src="../../assets/img/biofy-white-transparent.png" />
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
