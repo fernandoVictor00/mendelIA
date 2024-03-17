@@ -1,10 +1,11 @@
 <div class="rounded-xl bg-white text-gray-700 shadow-md p-4 max-w-[16rem]">
   <div class="flex flex-col gap-2">
-    <h5 class="text-sm text-gray-600 font-normal uppercase">
+    <h5 class="text-sm text-biofy-blue font-normal uppercase">
       {{title}}
     </h5>
-    <p class="text-2xl text-gray-500 font-extrabold antialiased">
-      {{value}}
-    </p>
+    <span class="text-lg text-biofy-blue font-semibold">{{value}}</span>
+    <div>
+      <canvas id="canvas">{{chart}}</canvas>
+    </div>
   </div>
 </div>
