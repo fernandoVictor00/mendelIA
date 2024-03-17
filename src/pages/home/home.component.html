@@ -45,15 +45,15 @@
               />
             </svg>
             <h2
-              *ngIf="!requestForm.get('uploadFile')?.value"
+              *ngIf="!selectedFileName"
               class="mt-1 text-normal font-medium text-gray-700 tracking-wide"
             >
               Selecione o arquivo
             </h2>
             <span
-              *ngIf="requestForm.get('uploadFile')?.value"
+              *ngIf="selectedFileName"
               class="mt-2 text-small text-gray-500 tracking-wide"
-              >{{ requestForm.get("uploadFile")?.value }}</span
+              >{{ selectedFileName }}</span
             >
             <input
               id="dropzone-file"

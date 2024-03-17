@@ -22,6 +22,7 @@
     "@aws-sdk/client-s3": "^3.535.0",
     "@types/firebase": "^3.2.1",
     "firebase": "^8.10.1",
+    "ng2-img-max": "^2.2.9",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

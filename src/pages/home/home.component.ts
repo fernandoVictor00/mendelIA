@@ -7,12 +7,12 @@ import { FileUploadService } from '../../services/oracle/oracle.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-
 export class HomeComponent implements OnInit {
   isLoading = false;
   requestForm;
   oracleService: FileUploadService;
   selectedFile: File = null!;
+  selectedFileName: string = '';
 
   constructor(private _fb: FormBuilder, oracleService: FileUploadService) {
     this.oracleService = oracleService;
@@ -27,16 +27,26 @@ export class HomeComponent implements OnInit {
   async createRequest() {
     if (this.selectedFile) {
       this.isLoading = true;
-      this.oracleService
-        .uploadImage(this.selectedFile)
-        .then((url) => {
-          this.isLoading = false;
-          console.log('URL da imagem:', url);
-        });
+      this.oracleService.uploadFileFirebase(this.selectedFile).then((url) => {
+        this.isLoading = false;
+        this.selectedFileName = 'Selecione o arquivo';
+        this.selectedFile = null!;
+        console.log('URL do arquivo:', url);
+      });
     }
   }
 
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      const file = target.files[0];
+      const fileExtension = file.name.split('.').pop();
+      if (fileExtension !== 'gz') {
+        alert('Por favor, selecione um arquivo .gz');
+      } else {
+        this.selectedFile = file;
+        this.selectedFileName = file.name;
+      }
+    }
   }
 }
